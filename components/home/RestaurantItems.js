@@ -4,7 +4,7 @@ import  MaterialCommunityIcons from "react-native-vector-icons/Ionicons"
 
 export const LocalRestaurants=[
   { 
-    name:"fish house ",
+    name:"fish house",
     catergory:["pick up","soft drink"],
     price:"$$",
     review:"333",
@@ -40,27 +40,41 @@ export const LocalRestaurants=[
   },
 ]
 
-export default function RestaurantItems(props) {
-    
+
+export default function RestaurantItems({navigation,...props}) {
+
   return (
-      
-    <TouchableOpacity activeOpacity={1} style={{marginBottom:30}}>
+    <>
+    
        { props.restaurantData.map((item,index)=>(
-            <View  style={{marginTop:10,padding:15,backgroundColor:"white"}} key={index}>
-                <RestaurantImg image={item.image_url}/>
-                <RestaurantInfo name={item.name} rating={item.rating}/>
-            </View>
+          <TouchableOpacity activeOpacity={1} style={{marginBottom:30}} key={index} onPress={()=> navigation.navigate("RestaurantDetail",
+            {
+              name:item.name,
+              categories:item.categories,
+              price:item.price,
+              review:item.review_count,
+              rating:item.rating,
+              image_url:item.image_url
+            })} >
+              
+              <View  style={{marginTop:10,padding:15,backgroundColor:"white"}} >
+                  <RestaurantImg image={item.image_url} />
+                  <RestaurantInfo name={item.name} rating={item.rating} />
+              </View>
+          </TouchableOpacity>
        ))
        }
-    </TouchableOpacity>
+
+    </>  
+    
   )
 }
 
 
 const RestaurantImg=(props)=>(
     <>
-         <Image 
-        source={{url:props.image}}
+        <Image 
+        source={{uri:props.image}}
         style={{width:"100%",height:180}
         }/>
         <TouchableOpacity style={{position: "absolute" ,alignSelf:"flex-end",padding:20}} >
@@ -76,7 +90,7 @@ const RestaurantInfo=(props)=>(
             <Text style={{fontSize:13, color:"grey"}}> 30-50 mins </Text>
        </View>
        <View style={{backgroundColor:"#eee",height:35,width:35,alignItems:"center", justifyContent:"center",borderRadius:30, marginRight:10}}>
-            <Text> {props.rating} </Text>
+            <Text>{props.rating}</Text>
        </View>
        
     </View>  
